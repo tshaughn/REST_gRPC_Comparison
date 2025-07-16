@@ -3,12 +3,14 @@ package com.example.grpc;
 import com.example.entity.User;
 import io.quarkus.grpc.GrpcService;
 import io.smallrye.mutiny.Uni;
+import io.smallrye.common.annotation.Blocking;
 import jakarta.transaction.Transactional;
 
 @GrpcService
 public class UserGrpcService implements UserService {
 
     @Override
+    @Blocking
     @Transactional
     public Uni<UserResponse> createUser(CreateUserRequest request) {
         return Uni.createFrom().item(() -> {
@@ -30,6 +32,7 @@ public class UserGrpcService implements UserService {
     }
 
     @Override
+    @Blocking
     public Uni<UserResponse> getUser(GetUserRequest request) {
         return Uni.createFrom().item(() -> {
             User user = User.findById(request.getId());
@@ -56,6 +59,7 @@ public class UserGrpcService implements UserService {
     }
 
     @Override
+    @Blocking
     public Uni<GetAllUsersResponse> getAllUsers(GetAllUsersRequest request) {
         return Uni.createFrom().item(() -> {
             var users = User.<User>listAll();
@@ -76,6 +80,7 @@ public class UserGrpcService implements UserService {
     }
 
     @Override
+    @Blocking
     @Transactional
     public Uni<UserResponse> updateUser(UpdateUserRequest request) {
         return Uni.createFrom().item(() -> {
@@ -106,6 +111,7 @@ public class UserGrpcService implements UserService {
     }
 
     @Override
+    @Blocking
     @Transactional
     public Uni<DeleteUserResponse> deleteUser(DeleteUserRequest request) {
         return Uni.createFrom().item(() -> {
